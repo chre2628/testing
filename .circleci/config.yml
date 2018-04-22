@@ -4,11 +4,35 @@ defaults: &defaults
 
 version: 2
 
+workflows:
+  version: 2
+  deployment_pipeline:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+      - advance_to_qa:
+          requires:
+            - build
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_qa:
+
 jobs:
   build:
     <<: *defaults
     steps:
       - checkout
-      - run: &hellow_world
+      - run: &hello_world
           command: |
             echo "Hello World!"
+  deploy_qa:
+    <<: *defaults
+    steps:
+      - run:
+         <<: *hello_world
