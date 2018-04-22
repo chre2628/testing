@@ -1,6 +1,8 @@
 defaults: &defaults
-  docker:
-      - image: debian:stretch
+  type: shell
+    name: Hello World
+    command: |
+      echo "Hello World!"
 
 version: 2
 jobs:
