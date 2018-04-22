@@ -4,13 +4,6 @@ defaults: &defaults
 
 version: 2
 
-workflows:
-  version: 2
-  deployment_pipeline:
-    jobs:
-      - build:
-      - qa_build:
-
 jobs:
   build:
     <<: *defaults
