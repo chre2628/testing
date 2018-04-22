@@ -1,6 +1,8 @@
 defaults: &defaults
   docker:
     - image: debian:stretch
+hellow_world: &hello_world
+  | echo "Hello World"
 
 version: 2
 
@@ -9,8 +11,5 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: &hello_world
-          command: |
-            echo "Hello World!"
-      - run:
+      - run: 
           command: *hello_world
