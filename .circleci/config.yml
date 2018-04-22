@@ -1,18 +1,13 @@
-defaults: &defaults
-  _ type: shell
-    name: Hello World
-    command: |
-      echo "Hello World!"
-
 version: 2
 jobs:
   build:
     steps:
       - checkout
+      - run: &hello_world
+          shell: /bin/sh
+          command: |
+            echo "Hello World!"
       - run:
-          name: Greeting
-          command: echo Hello, world.
-      - run:
-          name: Print the Current Time
-          command: date
-      <<: *defaults
+          command: |
+            echo "Hello World 2!"
+      <<: *hello_world
