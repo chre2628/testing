@@ -23,6 +23,6 @@ workflows:
   deployment_pipeline:
     jobs:
       - build:
-      - deploy_qa
+      - deploy_qa:
           requires:
             - build
