@@ -22,17 +22,5 @@ workflows:
   version: 2
   deployment_pipeline:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - master
-      - advance_to_qa:
-          requires:
-            - build
-          type: approval
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_qa:
+      - build
+      - deploy_qa
