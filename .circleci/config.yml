@@ -7,4 +7,4 @@ jobs:
       - run: &hello_world
           command: |
             echo "Hello World!"
-      <<: *hello_world
+      - <<: *hello_world
