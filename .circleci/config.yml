@@ -12,10 +12,3 @@ jobs:
       - run: &hellow_world
           command: |
             echo "Hello World!"
-
-  qa_build:
-    <<: *defaults
-    steps:
-      - checkout 
-      - run: 
-          <<: *hello_world  
