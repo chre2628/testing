@@ -4,6 +4,20 @@ defaults: &defaults
 
 version: 2
 
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: &hello_world
+          command: |
+            echo "Hello World!"
+  deploy_qa:
+    <<: *defaults
+    steps:
+      - run:
+         <<: *hello_world
+
 workflows:
   version: 2
   deployment_pipeline:
@@ -22,17 +36,3 @@ workflows:
               only:
                 - master
       - deploy_qa:
-
-jobs:
-  build:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: &hello_world
-          command: |
-            echo "Hello World!"
-  deploy_qa:
-    <<: *defaults
-    steps:
-      - run:
-         <<: *hello_world
