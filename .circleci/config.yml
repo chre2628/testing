@@ -1,7 +1,12 @@
+defaults: &defaults
+  docker:
+    - image: debian:stretch
+
 version: 2
 
 jobs:
   build:
+    <<: *defaults
     steps:
       - checkout
       - run: &hello_world
