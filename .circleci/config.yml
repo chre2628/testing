@@ -22,7 +22,7 @@ workflows:
   version: 2
   deployment_pipeline:
     jobs:
-      - build:
+      - build
       - deploy_qa:
           requires:
             - build
