@@ -23,16 +23,6 @@ workflows:
   deployment_pipeline:
     jobs:
       - build:
-         filters:
-            branches:
-              only:
-                - master
-      - advance_to_qa:
+      - deploy_qa
           requires:
             - build
-          type: approval
-          filters:
-            branches:
-              only:
-                - master
-       - deploy_qa
