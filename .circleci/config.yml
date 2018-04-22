@@ -12,4 +12,5 @@ jobs:
       - run: &hello_world
           command: |
             echo "Hello World!"
-      - <<: *hello_world
+      - run:
+          command: *hello_world
