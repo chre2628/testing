@@ -6,13 +6,18 @@ version: 2
 
 jobs:
   build:
+    environment: &environment_variables
+      TERRAFORM_LOCATION: ./test1
     <<: *defaults
     steps:
       - checkout
       - run: &hello_world
           command: |
-            echo "Hello World!"
+            echo "${TERRAFORM_LOCATION}"
   deploy_qa:
+    environment: 
+      <<: *environment_variables
+      TERRAFORM_LOCATION: ./test2
     <<: *defaults
     steps:
       - run:
