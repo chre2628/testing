@@ -20,7 +20,7 @@ jobs:
       - run:
           command: |
             chmod +x /root/project/scripts/*
-            /root/project/scripts/gitdiff.sh
+            ls -ltr /root/project/scripts/*
 
   deploy_qa:
     environment: 
