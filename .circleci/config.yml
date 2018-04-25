@@ -53,11 +53,7 @@ jobs:
       - checkout 
       - run:
           command: |
-            ls -ltr /root
-            ls -ltr /root/project
-            ls -ltr /root/project/HelloWorld
-            ls -ltr /root/project/HelloWorld/*
-            ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/HelloWorld/rollback/rollback.cfg)
+            ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/Projects/HelloWorld/rollback/rollback.cfg)
             docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
             docker pull chre268/helloworld:${ROLLBACK_IMAGE}
       
