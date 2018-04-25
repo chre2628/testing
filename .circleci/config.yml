@@ -31,6 +31,8 @@ jobs:
     environment:
       ROLLBACK_IMAGE: __IMAGE__
     <<: *defaults
+    docker:
+      - image: alpine/git
     steps:
       - checkout 
       - run:
