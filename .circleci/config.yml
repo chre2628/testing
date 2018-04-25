@@ -17,8 +17,9 @@ jobs:
       - run: &hello_world
           command: |
             echo "${TERRAFORM_LOCATION}"
-    commands:
-       - ./scripts/gitdiff.sh
+      - commands:
+         - ./scripts/gitdiff.sh
+
   deploy_qa:
     environment: 
       <<: *environment_variables
