@@ -32,6 +32,7 @@ jobs:
       ROLLBACK_IMAGE: __IMAGE__
     <<: *defaults
     steps:
+      - checkout 
       - run:
           command: |
             ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/HelloWorld/rollback/rollback.cfg)
