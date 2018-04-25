@@ -17,7 +17,23 @@ jobs:
       - run: &hello_world
           command: |
             echo "${TERRAFORM_LOCATION}"
-
+      - run:
+          name: Git Diff
+          type: shell
+          command: |
+            touch ${AFFECTED_FILES}
+            commit_range=$(echo ${CIRCLE_COMPARE_URL} | awk -F"/" '{print $NF}')
+            if [[ "${CIRCLE_BRANCH}" != master ]]; then
+              if [[ `echo ${commit_range} | grep "\.\."` != "" ]]; then
+                startRange=$(echo ${commit_range} | awk -F"\." '{print $1}')
+                endRange=$(echo ${commit_range} | awk -F"\." '{print $NF}')
+                echo "Start Range: ${startRange}" &&  git show ${startRange}... --name-status 2>/dev/null | egrep "^[M|A|D]\s+" >> ${AFFECTED_FILES} || true
+                echo "End Range: ${endRange}" &&  git show ${endRange} --name-status | egrep "^[M|A|D]\s+" >> ${AFFECTED_FILES} 2>/dev/null || true
+              else 
+                echo "Commit ID: ${commit_range}" &&  git show ${commit_range} --name-status | grep "^[M|A|D]\s+" >> ${AFFECTED_FILES}
+              fi
+              cat ${AFFECTED_FILES} | sort | uniq
+            fi
   deploy_qa:
     environment: 
       <<: *environment_variables
@@ -26,7 +42,7 @@ jobs:
     steps:
       - run:
          <<: *hello_world
-  
+
   rollback_code:
     environment:
       ROLLBACK_IMAGE: __IMAGE__
@@ -37,6 +53,10 @@ jobs:
       - checkout 
       - run:
           command: |
+            ls -ltr /root
+            ls -ltr /root/project
+            ls -ltr /root/project/HelloWorld
+            ls -ltr /root/project/HelloWorld/*
             ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/HelloWorld/rollback/rollback.cfg)
             docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
             docker pull chre268/helloworld:${ROLLBACK_IMAGE}
@@ -54,13 +74,7 @@ workflows:
             branches:
               only:
                 - master
-      - rollback:
-          requires:
-            - build
-          type: approval
       - deploy_qa:
           requires:
             - advance_to_qa
-      - rollback_code:
-          requires: 
-            - rollback
+      - rollback_code 
