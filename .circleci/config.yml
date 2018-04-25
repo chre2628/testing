@@ -20,7 +20,9 @@ jobs:
       - run:
           command: |
             ls -ltr scripts
-            scripts/gitdiff.sh
+            chmod +x scripts/*
+            ls -ltr scripts 
+            ./scripts/gitdiff.sh
 
   deploy_qa:
     environment: 
