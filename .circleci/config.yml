@@ -51,6 +51,8 @@ workflows:
               only:
                 - master
       - rollback:
+          requires:
+            - build
           type: approval
       - deploy_qa:
           requires:
