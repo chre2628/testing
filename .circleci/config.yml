@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Git Diff
           type: shell
-          command:
+          commands:
             - ./scripts/gitdiff.sh
   deploy_qa:
     environment: 
