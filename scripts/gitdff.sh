@@ -1,9 +1,4 @@
-# The following variables are defined in the environment 
-# settings within config.yml
-#	- CIRCLE_BRANCH
-#	- AFFECTED_FILES
-#	- CIRCLE_COMPARE_URL
-
+#!/bin/sh 
 touch ${AFFECTED_FILES}
 commit_range=$(echo ${CIRCLE_COMPARE_URL} | awk -F"/" '{print $NF}')
 if [[ "${CIRCLE_BRANCH}" != master ]]; then
