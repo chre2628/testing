@@ -27,7 +27,7 @@ jobs:
       - run:
          <<: *hello_world
   
-  rollback:
+  rollback_code:
     environment:
       ROLLBACK_IMAGE: __IMAGE__
     <<: *defaults
