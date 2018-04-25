@@ -19,11 +19,8 @@ jobs:
             echo "${TERRAFORM_LOCATION}"
       - run:
           command: |
-            pwd 
-            ls -ltr scripts
-            chmod +x scripts/*
-            ls -ltr scripts 
-            /home/circleci/projects/scripts/gitdiff.sh
+            chmod +x /root/project/scripts/*
+            /root/project/scripts/gitdiff.sh
 
   deploy_qa:
     environment: 
