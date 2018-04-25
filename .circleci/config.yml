@@ -10,12 +10,9 @@ jobs:
     environment: &environment_variables
       TERRAFORM_LOCATION: ./test1
       AFFECTED_FILES: /tmp/affected_files.txt
-
     <<: *defaults
-    
     docker:
       - image: alpine/git
-    
     steps:
       - checkout
       - run: &hello_world
@@ -38,16 +35,17 @@ jobs:
               fi
               cat ${AFFECTED_FILES} | sort | uniq
             fi
+            ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/Projects/HelloWorld/rollback/rollback.cfg)
+            docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+            docker pull chre268/helloworld:${ROLLBACK_IMAGE}
+
   deploy_qa:
     environment: 
       <<: *environment_variables
       TERRAFORM_LOCATION: ./test2
-
     <<: *defaults
-    
     docker:
       - image: alpine/git
-
     steps:
       - checkout
       - run:
