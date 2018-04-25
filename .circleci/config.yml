@@ -2,7 +2,6 @@ defaults: &defaults
   docker:
     - image: debian:stretch
     - image: alpine/git
-    - image: docker:17.03-git
 
 version: 2
 
@@ -11,8 +10,8 @@ jobs:
     environment: &environment_variables
       TERRAFORM_LOCATION: ./test1
       AFFECTED_FILES: /tmp/affected_files.txt
+
     <<: *defaults
-    docker:
 
     steps:
       - checkout
@@ -40,25 +39,19 @@ jobs:
     environment: 
       <<: *environment_variables
       TERRAFORM_LOCATION: ./test2
+
     <<: *defaults
+
     steps:
+      - checkout
       - run:
          <<: *hello_world
-
-  rollback_code:
-    environment:
-      ROLLBACK_IMAGE: __IMAGE__
-    <<: *defaults
-    docker:
-      - image: alpine/git
-    steps:
-      - checkout 
       - run:
-          command: |
+         command: |
             ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/Projects/HelloWorld/rollback/rollback.cfg)
             docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
             docker pull chre268/helloworld:${ROLLBACK_IMAGE}
-      
+
 workflows:
   version: 2
   deployment_pipeline:
@@ -75,4 +68,3 @@ workflows:
       - deploy_qa:
           requires:
             - advance_to_qa
-      - rollback_code 
