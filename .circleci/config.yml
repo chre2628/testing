@@ -30,6 +30,7 @@ jobs:
   rollback:
     environment:
       ROLLBACK_IMAGE: __IMAGE__
+    <<: *defaults
     steps:
       - run:
           command: |
