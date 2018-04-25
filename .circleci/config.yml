@@ -12,7 +12,10 @@ jobs:
       AFFECTED_FILES: /tmp/affected_files.txt
 
     <<: *defaults
-
+    
+    docker:
+      - image: alpine/git
+    
     steps:
       - checkout
       - run: &hello_world
@@ -41,6 +44,9 @@ jobs:
       TERRAFORM_LOCATION: ./test2
 
     <<: *defaults
+    
+    docker:
+      - image: alpine/git
 
     steps:
       - checkout
