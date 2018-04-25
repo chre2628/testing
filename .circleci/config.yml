@@ -1,7 +1,8 @@
 defaults: &defaults
   docker:
     - image: debian:stretch
-    - image: docker:17.05.0-ce-git
+    - image: alpine/git
+    - image: docker:17.03-git
 
 version: 2
 
@@ -11,6 +12,8 @@ jobs:
       TERRAFORM_LOCATION: ./test1
       AFFECTED_FILES: /tmp/affected_files.txt
     <<: *defaults
+    docker:
+
     steps:
       - checkout
       - run: &hello_world
@@ -46,9 +49,10 @@ jobs:
     environment:
       ROLLBACK_IMAGE: __IMAGE__
     <<: *defaults
+    docker:
+      - image: alpine/git
     steps:
-      - checkout
-      - setup_remote_docker
+      - checkout 
       - run:
           command: |
             ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/Projects/HelloWorld/rollback/rollback.cfg)
