@@ -19,6 +19,7 @@ jobs:
             echo "${TERRAFORM_LOCATION}"
       - run:
           command: |
+            ls -ltr 
             ./scripts/gitdiff.sh
 
   deploy_qa:
