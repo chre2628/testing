@@ -10,6 +10,7 @@ jobs:
     environment: &environment_variables
       TERRAFORM_LOCATION: ./test1
       AFFECTED_FILES: /tmp/affected_files.txt
+
     <<: *defaults
     docker:
       - image: alpine/git
