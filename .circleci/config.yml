@@ -17,10 +17,6 @@ jobs:
       - run: &hello_world
           command: |
             echo "${TERRAFORM_LOCATION}"
-      - run:
-          command: |
-            chmod +x /root/project/scripts/*
-            /root/project/scripts/gitdiff.sh
 
   deploy_qa:
     environment: 
@@ -30,7 +26,17 @@ jobs:
     steps:
       - run:
          <<: *hello_world
-
+  
+  rollback:
+    environment:
+      ROLLBACK_IMAGE: __IMAGE__
+    steps:
+      - run:
+          command: |
+            ROLLBACK_IMAGE=$(awk -F'=' '{print $NF}' < /root/project/rollback/rollback.cfg)
+            docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+            docker pull chre268/helloworld:${ROLLBACK_IMAGE}
+      
 workflows:
   version: 2
   deployment_pipeline:
@@ -44,6 +50,11 @@ workflows:
             branches:
               only:
                 - master
+      - rollback:
+          type: approval
       - deploy_qa:
           requires:
             - advance_to_qa
+      - rollback_code:
+          requires: 
+            - rollback
